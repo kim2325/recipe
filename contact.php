@@ -1,22 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<title>Purdue Apps</title>
-</head>
-<body>
+<?php include "header.php" ?>
+<?php
+  $alert="";
+  $alertClass="";
 
-	<div id="banner">
-		<h1>Web Banner</h1>
-	</div>
+  if(filter_has_var(INPUT_POST, 'submit')) {
+		$firstname = htmlspecialchars($_POST['firstname']);
+		$lastname = htmlspecialchars($_POST['lastname']);
+		$email = htmlspecialchars($_POST['email']);
+		$country = htmlspecialchars($_POST['country']);
+    $message = htmlspecialchars($_POST['message']);
 
-	<ul class="topnav">
-		<li><a href="index.html">Home</a></li>
-		<li><a href="index.html">Recipe</a></li>
-		<li><a href="contact.html">Contact</a></li>
-		<li><a href="#">Login</a></li>
-	</ul>
+  if(!empty($firstname) && !empty($lastname)&& !empty($email) && !empty($message)) {
+       if(filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+           $alert = "Please enter a valid email address";
+           $alertClass ="red";
+       } else {
+           $toEmail = 'kim2325@purdue.edu';
+           $subject = 'Contact Request from '.$firstname.' '.$lastname;
+           $body = '<h2>Contact Request</h2>
+           <h4>Name: </h4><p>'.$firstname.' '.$lastname.'</p>
+					 <h4>Email: </h4><p>'.$email.'</p>
+					 <h4>Country: </h4><p>'.$country.'</p>
+           <h4>Message: </h4><p>'.$message.'</p>';
+           
+           $headers  = "From: $firstname.' '.$lastname <$email>\r\n";
+           $headers .= "MIME-Version: 1.0\r\n";
+           $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+
+           if( mail($toEmail, $subject, $body, $headers)) {
+               $alert = "Your email has been sent";
+               $alertClass = "green";
+           } else {
+               $alert = "Your email failed to send";
+               $alertClass = "red";
+           }
+       }
+  }  else {
+      $alert = "Please fill in all fields";
+      $alertClass="red";
+  }
+  };
+?>
+
+<div>
+    <?php if ($alert != ''): ?>
+     <div class="<?php echo $alertClass; ?>">
+      <?php echo $alert; ?>   
+    </div>
+		<?php endif; ?>
+</div>		
 
 
 <div id="contact">
@@ -25,11 +57,18 @@
 
 <div id="contact-container">
 	<div class="container"> <!-- container -->
+	<form method="post" class="form" action="<?php echo $_SERVER['PHP_SELF'] ?>">
   	<label for="fname">First Name</label>
-    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+    <input type="text" id="fname" name="firstname" placeholder="Your name..." 
+		value="<?php  echo isset($_POST['firstname']) ? $firstname: ''; ?>">
 
     <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..." 
+		value="<?php  echo isset($_POST['lastname']) ? $lastname: ''; ?>">
+
+		<label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Your email address..."
+		value="<?php  echo isset($_POST['email']) ? $email: ''; ?>">
 
 		<div class="dropdown_container"> <!-- dropdown container -->
 	    <label for="country">Country</label>
@@ -288,10 +327,10 @@
 
 
     <label for="message">Message</label>
-    <textarea id="message" name="message" placeholder="Write something.." style="height:200px"></textarea>
+		<textarea id="message" name="message" placeholder="Write something.." style="height:200px"><?php  echo isset($_POST['message']) ? $message: ''; ?></textarea>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" name="submit">
 
   </form>
-</body>
-</html>
+
+<?php include "footer.php" ?>
