@@ -1,3 +1,4 @@
+<<<<<<< HEAD:contact.php
 <?php include "header.php" ?>
 <?php
   $alert="";
@@ -22,7 +23,7 @@
 					 <h4>Email: </h4><p>'.$email.'</p>
 					 <h4>Country: </h4><p>'.$country.'</p>
            <h4>Message: </h4><p>'.$message.'</p>';
-           
+
            $headers  = "From: $firstname.' '.$lastname <$email>\r\n";
            $headers .= "MIME-Version: 1.0\r\n";
            $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
@@ -45,10 +46,10 @@
 <div>
     <?php if ($alert != ''): ?>
      <div class="<?php echo $alertClass; ?>">
-      <?php echo $alert; ?>   
+      <?php echo $alert; ?>
     </div>
 		<?php endif; ?>
-</div>		
+</div>
 
 
 <div id="contact">
@@ -59,11 +60,11 @@
 	<div class="container"> <!-- container -->
 	<form method="post" class="form" action="<?php echo $_SERVER['PHP_SELF'] ?>">
   	<label for="fname">First Name</label>
-    <input type="text" id="fname" name="firstname" placeholder="Your name..." 
+    <input type="text" id="fname" name="firstname" placeholder="Your name..."
 		value="<?php  echo isset($_POST['firstname']) ? $firstname: ''; ?>">
 
     <label for="lname">Last Name</label>
-    <input type="text" id="lname" name="lastname" placeholder="Your last name..." 
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..."
 		value="<?php  echo isset($_POST['lastname']) ? $lastname: ''; ?>">
 
 		<label for="email">Email</label>
@@ -334,3 +335,61 @@
   </form>
 
 <?php include "footer.php" ?>
+=======
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Home</title>
+  </head>
+  <body>
+
+    <div class="container topBottomBordersIn">
+      <nav>
+        <a href="#" id="menu-icon"></a>
+        <ul>
+          <li style="list-style: none; display: inline"></li>
+          <li>
+            <a href="index.php">Home</a>
+          </li>
+          <li style="list-style: none; display: inline"></li>
+          <li>
+            <a href="#">Recipe</a>
+          </li>
+          <li style="list-style: none; display: inline"></li>
+          <li>
+            <a href="contact.php">Contact</a>
+          </li>
+          <li style="list-style: none; display: inline"></li>
+          <li>
+            <a href="login.php">Login</a>
+          </li>
+          <li style="list-style: none; display: inline"></li>
+        </ul>
+      </nav>
+    </div> <!-- container topBottomBordersIn -->
+
+  <div class="main-container">
+    <div class="content-container">
+			<form id="contact-form" method="post" action="contactform.php">
+				<div class="contact-container">
+					<label for="name">Full Name</label>
+					<input type="text" id="name" name="name" placeholder="Full name" type="text" >
+
+					<label for="email">Email</label>
+					<input type="email" id="email" name="mail" placeholder="Your email" type="text">
+
+					<label for="subject">Subject</label>
+					<input type="text" id="subject" name="subject" placeholder="Subject" type="text">
+
+					<label for="message">Message</label>
+					<textarea id="message" name="message" placeholder="Write something.." style="height:200px"></textarea>
+					<input type="submit" value="Submit">
+				</div> <!-- contact-container -->
+			</form>
+    </div> <!-- content-container -->
+  </div> <!-- main-container -->
+  </body>
+</html>
+>>>>>>> upstream/master:contact.html
